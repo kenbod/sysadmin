@@ -16,5 +16,5 @@ I decided to install the latest version of Hadoop. In July 2015, that was Hadoop
 
 ### Installing Java
 
-Make sure that your machines have Java installed. See [my instructions](https://github.com/kenbod/sysadmin/java.md) for doing that.
+Make sure that your machines have Java installed. See [my instructions](https://github.com/kenbod/sysadmin/blob/master/java.md) for doing that.
 
