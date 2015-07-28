@@ -3,10 +3,9 @@
 To install Java on my machines, I had to do it manually. I couldn't get the various `apt-get` methods to work.
 (The automated attempt to download the JDK from Oracle's website would fail each time).
 
-## 32-bit libraries
+## 32-bit libraries (optional)
 
-The 64-bit binary versions of the JDK still require that various 32-bit libraries are present on the machine.
-To make sure they are present, various pages on the Internet recommend the following command:
+The 32-bit binary versions of the JDK require that various 32-bit libraries are present on the virtual machine. If you're virtual machine is a 64-bit operating system, those libraries may not be present. If you decide to use the 32-bit version of the JDK, then to make sure that the required libraries are present, run the following command:
 
 ```sudo apt-get install libc6-i386```
 
