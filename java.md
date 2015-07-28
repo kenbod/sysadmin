@@ -26,22 +26,22 @@ The version I downloaded in July 2015 was: jdk-8u51-linux-i586.tar.gz
 
 These manual instructions were taken from this [useful post on Ask Ubuntu](http://askubuntu.com/questions/56104/how-can-i-install-sun-oracles-proprietary-java-jdk-6-7-8-or-jre).
 
-1. Unpack the archive in a user directory: `tar -xvf <jdk-archive.tar.gz>`
-2. Move the new directory to `/usr/lib`
+* Unpack the archive in a user directory: `tar -xvf <jdk-archive.tar.gz>`
+* Move the new directory to `/usr/lib`
 
 ```
 sudo mkdir -p /usr/lib/jvm
 sudo mv ./<jdk-archive> /usr/lib/jvm/
 ```
 
-3. Create a generic symlink for JDK 1.8
+* Create a generic symlink for JDK 1.8
 
 ```
 cd /usr/lib/jvm
 sudo ln -s <jdk-directory> jdk1.8.0
 ```
 
-4. Let Ubuntu know about the newly installed commands
+* Let Ubuntu know about the newly installed commands
 
 ```
 sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0/bin/java" 1
@@ -49,7 +49,7 @@ sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8
 sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.8.0/bin/javaws" 1
 ```
 
-5. Mark the files as exectuable and make sure that `root` owns the installation
+* Mark the files as exectuable and make sure that `root` owns the installation
 
 ```
 sudo chmod a+x /usr/bin/java
@@ -58,7 +58,7 @@ sudo chmod a+x /usr/bin/javaws
 sudo chown -R root:root /usr/lib/jvm/jdk1.8.0
 ```
 
-6. If you have only one version of the JDK installed, skip this step. Otherwise, pick the JDK you want to use
+* If you have only one version of the JDK installed, skip this step. Otherwise, pick the JDK you want to use
 
 ```
 sudo update-alternatives --config java
@@ -66,19 +66,17 @@ sudo update-alternatives --config javac
 sudo update-alternatives --config javaws
 ```
 
-7. Make sure that JAVA_HOME is defined in `/etc/environment`. Add this line:
+* Make sure that JAVA_HOME is defined in `/etc/environment`. Add this line:
 
 ```
 JAVA_HOME="/usr/lib/jvm/jdk1.8.0"
 ```
 
-8. Test that everything is working
+* Test that everything is working
 
 ```
 java -version
 javac -version
 ```
-
-9. There is no step 9.
 
 
