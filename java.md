@@ -20,7 +20,7 @@ To make sure they are present, various pages on the Internet recommend the follo
 6. Click on the link for Linux x86.
 7. After it downloads, use scp to copy it to your Ubuntu VM
 
-The version I downloaded in July 2015 was: jdk-8u51-linux-i586.tar.gz
+The version I downloaded in July 2015 was: jdk-8u51-linux-x64.tar.gz (64 bit) and jdk-8u51-linux-i586.tar.gz (32 bit). Although I downloaded both, I ended up using just the 64 bit version.
 
 ## Install the JDK (manually)
 
