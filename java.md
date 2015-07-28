@@ -68,7 +68,9 @@ sudo update-alternatives --config javaws
 
 7. Make sure that JAVA_HOME is defined in `/etc/environment`. Add this line:
 
-```JAVA_HOME="/usr/lib/jvm/jdk1.8.0"```
+```
+JAVA_HOME="/usr/lib/jvm/jdk1.8.0"
+```
 
 8. Test that everything is working
 
