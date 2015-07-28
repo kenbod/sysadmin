@@ -41,11 +41,11 @@ We need to create user accounts for hadoop, hdfs, mapred, and yarn. You will nee
 
 1. Add the following line to `/etc/environment`
 
-        `HADOOP_HOME="/usr/local/src/hadoop-2.7.1"`
+        HADOOP_HOME="/usr/local/src/hadoop-2.7.1"
 
 2. Add the following line to `/etc/bash.bashrc`
 
-        `export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin`
+        export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
 
 3. Logout and login back in and check to see that you have `hadoop` in your path
 
