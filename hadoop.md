@@ -116,6 +116,7 @@ Then login to the hdfs account and edit the .profile to make use of keychain
 
         /usr/bin/keychain $HOME/.ssh/id_rsa
         source $HOME/.keychain/$HOSTNAME-sh
+
 3. `exit`
 4. `su - hdfs`
 5. Keychain will ask you to enter your passphrase
