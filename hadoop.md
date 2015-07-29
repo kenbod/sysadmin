@@ -188,3 +188,38 @@ Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/hdfs-site.xml` such that t
 
 This tells HDFS to store two copies of each file and it tells HDFS where to store its namenode files and its datanode files. I will need to update these instructions to place these directories on disk partitions that have a lot of disk space. For now, I'm just trying to get a simple multi-node configuration up and running.
 
+#### Edit `yarn-site.xml`
+
+Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/yarn-site.xml` such that the `configuration` tag now looks like this:
+
+```xml
+<configuration>
+  <property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce_shuffle</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>master:8030</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.address</name>
+    <value>master:8032</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.webapp.address</name>
+    <value>master:8088</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value>master:8031</value>
+  </property>
+  <property>
+    <name>yarn.resourcemanager.admin.address</name>
+    <value>master:8033</value>
+  </property>
+</configuration>
+```
+
+This set-ups the ports for various parts of the YARN infrastructure. All of these components will run on the master node.
+
