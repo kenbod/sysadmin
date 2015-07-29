@@ -130,14 +130,18 @@ Repeat these steps for the yarn account.
 
 ### Configuring the Cluster
 
-#### Create a temporary directory for Hadoop
+#### Create directories for Hadoop and HDFS
+
+We are now going to create three directories in the `/home/hadoop/` user account to store files for Hadoop's operation. I don't think that all three of these directories need to be created on all nodes in the cluster but, just to be safe, perform these commands on the master and all of the workers.
 
 Create a directory for Hadoop to store temporary files. This may only be necessary for the master node but, to be safe, perform these instructions on the master and all of the workers
 
 1. `su - hadoop`
-2. `mkdir tmp`
+2. `mkdir tmp` # Create a directory for Hadoop to store temporary files
+3. `mkdir -p hdfs/namenode` # Create a directory for Hadoop's NameNode files
+4. `mkdir -p hdfs/datanode` # Create a directory for Hadoop's DataNode files
 
-Verify with the `ls -l` command that the permissions for this tmp directory are: `drwxrwxr-x`
+Verify with the `ls -l` command that the permissions for these directories are: `drwxrwxr-x`
 
 #### Edit `core-site.xml`
 
@@ -160,4 +164,27 @@ Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/core-site.xml` such that t
 ```
 
 This tells Hadoop where the temp directory is located and that we are going to be using HDFS to store our files.
+
+#### Edit `hdfs-site.xml`
+
+Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/hdfs-site.xml` such that the `configuration` tag now looks like this:
+
+```xml
+<configuration>
+  <property>
+    <name>dfs.replication</name>
+    <value>2</value>
+  </property>
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>/home/hadoop/hdfs/namenode</value>
+  </property>
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>/home/hadoop/hdfs/datanode</value>
+  </property>
+</configuration>
+```
+
+This tells HDFS to store two copies of each file and it tells HDFS where to store its namenode files and its datanode files. I will need to update these instructions to place these directories on disk partitions that have a lot of disk space. For now, I'm just trying to get a simple multi-node configuration up and running.
 
