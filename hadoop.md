@@ -223,3 +223,15 @@ Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/yarn-site.xml` on all node
 
 This set-ups the ports for various parts of the YARN infrastructure. All of these components will run on the master node.
 
+#### Edit the `slaves` file.
+
+On the master node, edit the slaves files to look like this:
+
+```
+master
+worker01
+```
+
+If you have more worker nodes, then list them below `worker01` above.
+
+
