@@ -14,7 +14,7 @@ I decided to install the latest version of Hadoop. In July 2015, that was Hadoop
 
 **NOTE:** These instructions are adapted from the information that appears in Chapter 10 of [Hadoop: The Definitive Guide, 4th Edition](http://shop.oreilly.com/product/0636920033448.do). The text in that chapter is written at a high level of abstraction. My instructions below contain way more details. :smiley:
 
-**NOTE:** Also note: Unless otherwise indicated, you need to follow these instructions for each node in your Hadoop cluster.
+**NOTE:** Unless otherwise indicated, you need to follow these instructions for each node in your Hadoop cluster.
 
 ### Installing Java
 
