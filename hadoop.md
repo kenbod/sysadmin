@@ -128,3 +128,36 @@ Then login to the hdfs account and edit the .profile to make use of keychain
 
 Repeat these steps for the yarn account.
 
+### Configuring the Cluster
+
+#### Create a temporary directory for Hadoop
+
+Create a directory for Hadoop to store temporary files. This may only be necessary for the master node but, to be safe, perform these instructions on the master and all of the workers
+
+1. `su - hadoop`
+2. `mkdir tmp`
+
+Verify with the `ls -l` command that the permissions for this tmp directory are: `drwxrwxr-x`
+
+#### Edit `core-site.xml`
+
+Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/core-site.xml` such that the `configuration` tag now looks like this:
+
+```xml
+<configuration>
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/home/hadoop/tmp</value>
+    <description>Hadoop Directory for Temporary Files</description>
+  </property>
+
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://master:54310</value>
+    <description>Use HDFS as file storage engine</description>
+  </property>
+</configuration>
+```
+
+This tells Hadoop where the temp directory is located and that we are going to be using HDFS to store our files.
+
