@@ -145,7 +145,7 @@ Verify with the `ls -l` command that the permissions for these directories are: 
 
 #### Edit `core-site.xml`
 
-Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/core-site.xml` such that the `configuration` tag now looks like this:
+Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/core-site.xml` on all nodes of the cluster such that the `configuration` tag now looks like this:
 
 ```xml
 <configuration>
@@ -167,7 +167,7 @@ This tells Hadoop where the temp directory is located and that we are going to b
 
 #### Edit `hdfs-site.xml`
 
-Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/hdfs-site.xml` such that the `configuration` tag now looks like this:
+Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/hdfs-site.xml` on all nodes of the cluster such that the `configuration` tag now looks like this:
 
 ```xml
 <configuration>
@@ -190,7 +190,7 @@ This tells HDFS to store two copies of each file and it tells HDFS where to stor
 
 #### Edit `yarn-site.xml`
 
-Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/yarn-site.xml` such that the `configuration` tag now looks like this:
+Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/yarn-site.xml` on all nodes of the cluster such that the `configuration` tag now looks like this:
 
 ```xml
 <configuration>
