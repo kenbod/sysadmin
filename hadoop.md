@@ -93,7 +93,9 @@ On the master node, run the following commands:
 
 #### Copying the public keys
 
-We need to copy the `authorized_keys` files from the master to each of the worker nodes. We will use scp for this and simply enter the password that you created for the hdfs and yarn accounts earlier. On the master node, run the following commands:
+We need to copy the `authorized_keys` files from the master to each of the worker nodes. We will use scp for this and simply enter the password that you created for the hdfs and yarn accounts earlier.
+
+On the master node, run the following commands **FOR EACH WORKER NODE:**
 
 1. `su - hdfs`
 2. `ssh-copy-id hdfs@worker01`
@@ -101,6 +103,7 @@ We need to copy the `authorized_keys` files from the master to each of the worke
 4. Enter the password for the hdfs account on worker01 if asked
 5. Test the ability to login to the worker01 machine: `ssh worker01`
 6. You will be asked for your passphrase. Type it and you will be logged in on the remote machine.
+7. Repeat these steps for the `yarn` account.
 
 #### Configuring Keychain
 
@@ -123,5 +126,5 @@ Then login to the hdfs account and edit the .profile to make use of keychain
 6. Now if you type `ssh worker01`, you should be logged in without having to type your passphase
 7. You will no longer need to enter your passphrase until your virtual machine is rebooted
 
-
+Repeat these steps for the yarn account.
 
