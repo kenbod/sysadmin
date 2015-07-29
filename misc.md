@@ -12,3 +12,4 @@ To give a user sudo access:
 * To allow sudo without a password, add this line: `<username> ALL=(ALL:ALL) NOPASSWD: ALL`
 * Note: there is a tab character between the username and the rest of the line
 
+To regenerate missing SSH host keys: `sudo ssh-keygen -A`
