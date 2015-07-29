@@ -14,8 +14,31 @@ I decided to install the latest version of Hadoop. In July 2015, that was Hadoop
 
 **NOTE:** These instructions are adapted from the information that appears in Chapter 10 of [Hadoop: The Definitive Guide, 4th Edition](http://shop.oreilly.com/product/0636920033448.do). The text in that chapter is written at a high level of abstraction. My instructions below contain way more details. :smiley:
 
-**NOTE:** Unless otherwise indicated, you need to follow these instructions for each node in your Hadoop cluster.
+### Overview
 
+We will be configuring multiple machines to run as a Hadoop cluster. In my case, I created five VMs: one `master` node and four `worker` nodes: `worker1`, `worker2`, etc. **NOTE:** Unless otherwise indicated, you need to follow the instructions below for each node in your Hadoop cluster.
+
+### Configuring `/etc/hosts`
+
+Edit the `/etc/hosts` file on each node in your cluster so you can refer to each machine by their name and not by their IP address. Edit the file (`sudo vi /etc/hosts`) to look something like this:
+
+```
+123.1.1.25 master
+123.1.1.26 worker01
+123.1.1.27 worker02
+123.1.1.28 worker03
+123.1.1.29 worker04
+```
+
+**Note:** You will need to change the IP addresses listed above to match your set-up.
+
+Once you have saved the file, you can test that the changes worked with the ping command:
+
+```
+ping master
+ping worker01
+ping ...
+```
 ### Installing Java
 
 Make sure that your machines have Java installed. See [my instructions](https://github.com/kenbod/sysadmin/blob/master/java.md) for doing that.
@@ -53,5 +76,24 @@ We need to create user accounts for hadoop, hdfs, mapred, and yarn. You will nee
 
 ### Configuring SSH Access
 
-More info soon!
+We need to create an RSA key pair for the hdfs and yarn accounts. The private and public keys are stored on the master node. The public keys for each of these accounts must then be copied to the corresponding locations on each of the worker nodes.
+
+#### Creating the keypairs
+
+On the master node, run the following commands:
+
+1. `su - hdfs` # Switch to be the hdfs user
+2. `ssh-keygen -t rsa -f ~/.ssh/id_rsa`
+3. Be sure to enter a passphrase for the key pair and record it in a safe location.
+4. `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys`
+5. `su - yarn` # Switch to the yarn user
+6. `ssh-keygen -t rsa -f ~/.ssh/id_rsa`
+7. Again, enter a (different) passphrase for the key pair and record it.
+8. `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys`
+
+#### Copying the public keys
+
+We need to copy the `authorized_keys` files from the master to each of the worker nodes. We will use scp for this and simply enter the password that you created for the hdfs and yarn accounts earlier.
+
+
 
