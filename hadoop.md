@@ -93,7 +93,34 @@ On the master node, run the following commands:
 
 #### Copying the public keys
 
-We need to copy the `authorized_keys` files from the master to each of the worker nodes. We will use scp for this and simply enter the password that you created for the hdfs and yarn accounts earlier.
+We need to copy the `authorized_keys` files from the master to each of the worker nodes. We will use scp for this and simply enter the password that you created for the hdfs and yarn accounts earlier. On the master node, run the following commands:
+
+1. `su - hdfs`
+2. `ssh-copy-id hdfs@worker01`
+3. Say 'yes' if you are asked to accept the fingerprint of the worker01 machine
+4. Enter the password for the hdfs account on worker01 if asked
+5. Test the ability to login to the worker01 machine: `ssh worker01`
+6. You will be asked for your passphrase. Type it and you will be logged in on the remote machine.
+
+#### Configuring Keychain
+
+As the ubuntu account on your master node, install keychain
+
+1. `sudo apt-get update`
+2. `sudo apt-get install keychain`
+
+Then login to the hdfs account and edit the .profile to make use of keychain
+
+1. `su - hdfs`
+2. `vi .profile` # Add the following lines to end of .profile file
+
+        /usr/bin/keychain $HOME/.ssh/id_rsa
+        source $HOME/.keychain/$HOSTNAME-sh
+3. `exit`
+4. `su - hdfs`
+5. Keychain will ask you to enter your passphrase
+6. Now if you type `ssh worker01`, you should be logged in without having to type your passphase
+7. You will no longer need to enter your passphrase until your virtual machine is rebooted
 
 
 
