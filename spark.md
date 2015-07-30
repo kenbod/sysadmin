@@ -43,4 +43,45 @@ Now edit the spark-env.sh file. Uncomment the line that defines the HADOOP_CONF_
 
     HADOOP_CONF_DIR="/usr/local/src/hadoop-2.7.1/etc/hadoop"
 
+### Configure Spark to be Less Chatty. (Optional)
+
+If you run the `spark-shell` command, you will see a huge amount of output before the prompt appears. We can make Spark be less chatty by changing the log4j properties. To do that, follow these instructions:
+
+1. `su - spark`
+2. `cd /usr/local/src/spark-1.4.1/conf`
+3. `cp log4j.properties.template log4j.properties`
+4. Edit the `log4j.properties` file to look like this:
+
+```
+# set global logging severity to INFO
+log4j.rootCategory=INFO, console, file
+
+# console config (restrict only to ERROR and FATAL)
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.target=System.err
+log4j.appender.console.threshold=ERROR
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n
+
+# file config
+log4j.appender.file=org.apache.log4j.RollingFileAppender
+log4j.appender.file.File=/usr/local/src/spark-1.4.1/logs/info.log
+log4j.appender.file.MaxFileSize=5MB
+log4j.appender.file.MaxBackupIndex=10
+log4j.appender.file.layout=org.apache.log4j.PatternLayout
+log4j.appender.file.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n
+
+# Settings to quiet third party logs that are too verbose
+log4j.logger.org.spark-project.jetty=WARN
+log4j.logger.org.spark-project.jetty.util.component.AbstractLifeCycle=ERROR
+log4j.logger.org.apache.spark.repl.SparkIMain$exprTyper=INFO
+log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
+```
+
+**NOTE**: This particular configuration was shamelessly stolen from [Spark in Action](http://www.manning.com/bonaci/). Don't thank me, thank them!
+
+**NOTE**: If you ever need to see the debug output of `spark-shell` or `spark-submit`, then edit this file and change the word `ERROR` with either `WARN` or `INFO`. Then, change it back to `ERROR` when you're done.
+
+* Run `spark-shell` to see that most of the start-up logging has been eliminated.
+
 ### Configure Spark to run in <q>standalone</q> mode
