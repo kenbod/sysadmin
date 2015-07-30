@@ -224,6 +224,27 @@ Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/yarn-site.xml` on all node
 
 This set-ups the ports for various parts of the YARN infrastructure. All of these components will run on the master node.
 
+#### Edit `mapred-site.xml`
+
+Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/mapred-site.xml` on the master node such that the `configuration` tag now looks like the file below. Note: first, you have to create this file...
+
+Execute these commands in the `/usr/local/src/hadoop-2.7.1/etc/hadoop` directory:
+
+1. `sudo cp mapred-site.xml.template mapred-site.xml`.
+2. `sudo chown hadoop:hadoop mapred-site.xml`
+3. `sudo vi mapred-site.xml`
+
+```xml
+<configuration>
+  <property>
+    <name>mapreduce.framework.name</name>
+    <value>yarn</value>
+  </property>
+</configuration>
+```
+
+This tells map reduce jobs to run using the cluster; the default, otherwise, is to run locally on the client machine which defeats the purpose of Hadoop.
+
 #### Edit the `slaves` file.
 
 On the master node, edit the slaves files to look like this:
