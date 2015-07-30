@@ -86,3 +86,18 @@ We need to make sure that the accounts on each machine have access to Hadoop (an
 
 Note: Be sure your version of HADOOP_HOME matches the location where you unpacked the Hadoop archive. Recall that I used `/usr/local/src` but you are free to use other directories. I won't mention this issue again moving forward but be aware of it.
 
+### Configuring SSH Access
+
+We need to create an RSA key pair for the hdfs account. The private and public keys are stored on the master node. The public keys for this account must then be copied to the corresponding location on each of the worker nodes.
+
+#### Creating the Key Pair
+
+On the master node, run the following commands:
+
+1. Switch to be the hdfs user: `su - hdfs`
+2. `ssh-keygen -t rsa -f ~/.ssh/id_rsa`
+3. Be sure to enter a passphrase for the key pair and record it in a safe location.
+4. `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys`
+
+
+
