@@ -18,7 +18,7 @@ Following the conventions of the other pages in this repo, we will unpack scala 
 2. Unpack it: `sudo tar xzf scala-2.10.5.tgz`
 3. Remove it: `sudo rm scala-2.10.5.tgz` (Optional)
 4. Create a scala group: `sudo addgroup scala`
-5. Create a scala user: `sudo adduser --ingroup spark spark`
+5. Create a scala user: `sudo adduser --ingroup scala scala`
 6. Change the owner for the scala distribution: `sudo chown -R scala:scala scala-2.10.5`
 
 ## Configure Environment
