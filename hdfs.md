@@ -70,6 +70,19 @@ Let's place the previously downloaded Hadoop archive into a known location. I de
 5. `sudo rm <archive>` (Optional)
 6. `sudo chown -R hadoop:hadoop hadoop-2.7.1` (change to match the version you downloaded)
 
+### Configuring the Global Environment
 
+We need to make sure that the accounts on each machine have access to Hadoop (and by extension, HDFS) and its programs.
 
+1. Add the following line to `/etc/environment`: `sudo vi /etc/environment`
+
+        HADOOP_HOME="/usr/local/src/hadoop-2.7.1"
+
+2. Add the following line to `/etc/bash.bashrc`
+
+        export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+3. Logout and login back in and check to see that you have `hadoop` in your path
+
+Note: Be sure your version of HADOOP_HOME matches the location where you unpacked the Hadoop archive. Recall that I used `/usr/local/src` but you are free to use other directories. I won't mention this issue again moving forward but be aware of it.
 
