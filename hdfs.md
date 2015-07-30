@@ -101,7 +101,7 @@ On the master node, run the following commands:
 
 #### Copying the public keys
 
-We need to copy the `authorized_keys` file from the master to each of the worker nodes. We will use `ssh-copy-id` for this and simply enter the password that you created for the `hdfs` account earlier.
+We need to copy the public key from the master to each of the worker nodes. We will use `ssh-copy-id` for this and simply enter the password that you created for the `hdfs` account earlier.
 
 On the master node, run the following commands **FOR EACH WORKER NODE:**
 
