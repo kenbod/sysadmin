@@ -133,5 +133,5 @@ Then login to the `hdfs` account and edit the .profile to make use of keychain
 6. Now if you type `ssh worker01`, you should be logged in without having to type your passphase
 7. You will no longer need to enter your passphrase until your virtual machine is rebooted
 
-Based on my own Internet searches, the information above is hard to come by. You're welcome. ::smiley::
+Based on my own Internet searches, the information above is hard to come by. You're welcome. :smiley:
 
