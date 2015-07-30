@@ -33,7 +33,7 @@ We will only be installing Spark on what was called <q>the master node</q> in my
 
 ### Configure Spark so that it knows about the Hadoop Installation
 
-We want our version of Spark to be able to access HDFS. In order to do that, it needs to know where HDFS's configuration files are located and that directory exists inside of the Hadoop installation.
+We want our version of Spark to be able to access HDFS. In order to do that, it needs to know where HDFS's configuration files are located. That directory exists inside of the Hadoop installation.
 
 1. `cd /usr/local/src/spark-1.4.1/conf`
 2. `sudo cp spark-env.sh.template spark-env.sh`
@@ -42,3 +42,5 @@ We want our version of Spark to be able to access HDFS. In order to do that, it 
 Now edit the spark-env.sh file. Uncomment the line that defines the HADOOP_CONF_DIR environment variable. Make it look like this:
 
     HADOOP_CONF_DIR="/usr/local/src/hadoop-2.7.1/etc/hadoop"
+
+### Configure Spark to run in <q>standalone</q> mode
