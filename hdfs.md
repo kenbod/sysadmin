@@ -133,5 +133,32 @@ Then login to the `hdfs` account and edit the .profile to make use of keychain
 6. Now if you type `ssh worker01`, you should be logged in without having to type your passphase
 7. You will no longer need to enter your passphrase until your virtual machine is rebooted
 
-Based on my own Internet searches, the information above is hard to come by. You're welcome. :smiley:
+Based on my own Internet searches, the information in this section is hard to come by. You're welcome. :smiley:
+
+### Configuring the Cluster
+
+#### Create directories for HDFS
+
+We are now going to create three directories in `/home/hdfs/` for the `hdfs` account to store files for HDFS's operation. I don't think that all three of these directories need to be created on all nodes in the cluster but, just to be safe, perform these commands on the master and all of the workers.
+
+Create a directory for HDFS to store temporary files.
+
+1. `su - hdfs`
+2. `mkdir tmp`
+3. `chmod 777 tmp`
+
+Stay logged in as the HDFS user and now create directories for the Name Node and Data Node.
+
+1. `mkdir namenode`
+2. `mkdir datanode`
+3. `chmod 777 namenode datanode`
+
+#### Create a place for HDFS log files
+
+We need a single location for Hadoop-related log files.
+
+1. `su - hadoop`
+2. `cd /usr/local/src/hadoop-2.7.1`
+3. `mkdir logs`
+4. `chmod 777 logs`
 
