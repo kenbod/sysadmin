@@ -147,6 +147,17 @@ Finally, run these commands to launch the history daemon.
 1. `su - mapred`
 2. `mr-jobhistory-daemon.sh start historyserver`
 
+### Need to shutdown?
+
+If you need to shutdown your Hadoop cluster, perform the following steps on the master node.
+
+1. `su - mapred`
+2. `mr-jobhistory-daemon.sh stop historyserver`
+3. `su - yarn`
+4. `stop-yarn.sh`
+5. Head over to my [HDFS page](https://github.com/kenbod/sysadmin/blob/master/hdfs.md) for instructions on shutting down the HDFS daemons.
+6. There is no step 6.
+
 ## Conclusion
 
 At this point, you are done! Your Hadoop cluster is now up and running! Congrats!
