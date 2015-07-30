@@ -84,4 +84,45 @@ log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
 
 * Run `spark-shell` to see that most of the start-up logging has been eliminated.
 
-### Configure Spark to run in <q>standalone</q> mode
+### Configuring SSH Access
+
+We need to create an RSA key pair for the `spark` account. The private and public key are stored on the master node. The public key for this account must then be copied to the corresponding locations on each of the worker nodes.
+
+### Creating the Key Pair
+
+On the master node, run the following commands:
+
+1. Switch to the spark user: `su - spark` 
+2. `ssh-keygen -t rsa -f ~/.ssh/id_rsa`
+3. Enter a passphrase for the private key and record it in a safe location.
+4. `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys`
+
+### Copying the public keys
+
+We need to copy the public key from the master to each of the worker nodes. We will use `ssh-copy-id` for this and simply enter the password that you created for the `spark` account earlier.
+
+On the master node, run the following commands **FOR EACH WORKER NODE:**
+
+1. `su - spark`
+2. `ssh-copy-id spark@worker01`
+3. Say 'yes' if you are asked to accept the fingerprint of the worker01 machine
+4. Enter the password for the spark account on worker01 if asked
+5. Test the ability to login to the worker01 machine: `ssh worker01`
+6. You will be asked for your passphrase. Type it and you will be logged in on the remote machine.
+
+### Configuring Keychain for the `yarn` account
+
+Login to the `spark` account and edit the .profile to make use of keychain
+
+1. `su - spark`
+2. `vi .profile` # Add the following lines to end of .profile file
+
+        /usr/bin/keychain $HOME/.ssh/id_rsa
+        source $HOME/.keychain/$HOSTNAME-sh
+
+3. `exit`
+4. `su - spark`
+5. Keychain will ask you to enter your passphrase
+6. Now if you type `ssh worker01`, you should be logged in without having to type your passphase
+7. You will no longer need to enter your passphrase until your virtual machine is rebooted
+
