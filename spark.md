@@ -29,7 +29,7 @@ We will only be installing Spark on what was called <q>the master node</q> in my
 
         export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
-3. Logout and login back in and check to see that you have `hadoop` in your path
+3. Logout and login back in and check to see that you have `spark-shell` in your path
 
 ### Configure Spark so that it knows about the Hadoop Installation
 
