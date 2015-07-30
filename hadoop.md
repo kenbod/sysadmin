@@ -269,3 +269,35 @@ On one of the worker nodes, run the command `jps` as the `hdfs` user, you should
 14978 DataNode
 ```
 This indicates that on this worker, a data node was successfully launched.
+
+#### Start the YARN daemons
+
+On the master node, execute these commands:
+
+1. `su - yarn`
+2. `start-yarn.sh`
+
+This command should launch a resource manager and node manager on the master node and a node manager on each worker node. To test this, run the `jps` command as the `yarn` user on each node in your cluster to verify.
+
+#### Start the MapReduce job history daemon.
+
+MapReduce has one server process that needs to be started on the master node.
+
+First, specify a new location for the history daemon's log files
+
+1. Edit `/usr/local/src/hadoop-2.7.1/etc/hadoop/mapred-env.sh`
+2. Add this line: `export HADOOP_MAPRED_LOG_DIR="/home/mapred/logs"`
+3. Make sure to create that directory: `su - mapred`; `mkdir logs`; `chmod 777 logs`
+
+Second, make sure that the `mapred` account is part of the HDFS `supergroup`:
+
+1. `sudo addgroup supergroup`
+2. `sudo usermod -a -G supergroup mapred`
+
+Finally, run these commands to launch the history daemon.
+
+1. `su - mapred`
+2. `mr-jobhistory-daemon.sh start historyserver`
+
+
+
