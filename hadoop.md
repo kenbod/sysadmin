@@ -11,11 +11,11 @@ We need to create additional user accounts for `mapred` and `yarn`. You will nee
 1. `sudo adduser --ingroup hadoop mapred`
 2. `sudo adduser --ingroup hadoop yarn`
 
-### Configuring SSH Access
+## Configuring SSH Access
 
 We need to create an RSA key pair for the `yarn` account. The private and public key are stored on the master node. The public key for this account must then be copied to the corresponding locations on each of the worker nodes.
 
-#### Creating the Key Pair
+### Creating the Key Pair
 
 On the master node, run the following commands:
 
@@ -24,7 +24,7 @@ On the master node, run the following commands:
 3. Enter a passphrase for the private key and record it in a safe location.
 4. `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys`
 
-#### Copying the public keys
+### Copying the public keys
 
 We need to copy the public key from the master to each of the worker nodes. We will use `ssh-copy-id` for this and simply enter the password that you created for the `yarn` account earlier.
 
@@ -37,7 +37,7 @@ On the master node, run the following commands **FOR EACH WORKER NODE:**
 5. Test the ability to login to the worker01 machine: `ssh worker01`
 6. You will be asked for your passphrase. Type it and you will be logged in on the remote machine.
 
-#### Configuring Keychain for the `yarn` account
+### Configuring Keychain for the `yarn` account
 
 Login to the `yarn` account and edit the .profile to make use of keychain
 
@@ -53,68 +53,12 @@ Login to the `yarn` account and edit the .profile to make use of keychain
 6. Now if you type `ssh worker01`, you should be logged in without having to type your passphase
 7. You will no longer need to enter your passphrase until your virtual machine is rebooted
 
-### Configuring the Cluster
+## Configuring the Cluster
 
-#### Create directories for Hadoop and HDFS
+**REMINDER:** This page assumes you have followed my instructions for [installing
+HDFS](https://github.com/kenbod/sysadmin/blob/master/hdfs.md). There is a section on that page called *Configuring the Cluster* that has critical info about `core-site.xml` and other configuration files that Hadoop needs to operate.
 
-We are now going to create three directories in the `/home/hadoop/` user account to store files for Hadoop's operation. I don't think that all three of these directories need to be created on all nodes in the cluster but, just to be safe, perform these commands on the master and all of the workers.
-
-Create a directory for Hadoop to store temporary files. This may only be necessary for the master node but, to be safe, perform these instructions on the master and all of the workers
-
-1. `su - hdfs`
-2. `mkdir tmp` # Create a directory for Hadoop to store temporary files
-3. `mkdir namenode` # Create a directory for Hadoop's NameNode files
-4. `mkdir datanode` # Create a directory for Hadoop's DataNode files
-5. `mkdir /usr/local/src/hadoop-2.7.1/logs` # Create directory for Hadoop's log files
-
-Verify with the `ls -l` command that the permissions for these directories are: `drwxrwxrwx`
-
-#### Edit `core-site.xml`
-
-Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/core-site.xml` on all nodes of the cluster such that the `configuration` tag now looks like this:
-
-```xml
-<configuration>
-  <property>
-    <name>hadoop.tmp.dir</name>
-    <value>/home/hdfs/tmp</value>
-    <description>Hadoop Directory for Temporary Files</description>
-  </property>
-
-  <property>
-    <name>fs.defaultFS</name>
-    <value>hdfs://master:54310</value>
-    <description>Use HDFS as file storage engine</description>
-  </property>
-</configuration>
-```
-
-This tells Hadoop where the temp directory is located and that we are going to be using HDFS to store our files.
-
-#### Edit `hdfs-site.xml`
-
-Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/hdfs-site.xml` on all nodes of the cluster such that the `configuration` tag now looks like this:
-
-```xml
-<configuration>
-  <property>
-    <name>dfs.replication</name>
-    <value>2</value>
-  </property>
-  <property>
-    <name>dfs.namenode.name.dir</name>
-    <value>file:///home/hdfs/namenode</value>
-  </property>
-  <property>
-    <name>dfs.datanode.data.dir</name>
-    <value>file:///home/hdfs/datanode</value>
-  </property>
-</configuration>
-```
-
-This tells HDFS to store two copies of each file and it tells HDFS where to store its namenode files and its datanode files. I will need to update these instructions to place these directories on disk partitions that have a lot of disk space. For now, I'm just trying to get a simple multi-node configuration up and running.
-
-#### Edit `yarn-site.xml`
+### Edit `yarn-site.xml`
 
 Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/yarn-site.xml` on all nodes of the cluster such that the `configuration` tag now looks like this:
 
@@ -147,17 +91,21 @@ Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/yarn-site.xml` on all node
 </configuration>
 ```
 
-This set-ups the ports for various parts of the YARN infrastructure. All of these components will run on the master node.
+This configures the ports for various parts of the YARN infrastructure. All of these components will run on the master node.
 
-#### Edit `mapred-site.xml`
+### Edit `mapred-site.xml`
 
-Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/mapred-site.xml` on the master node such that the `configuration` tag now looks like the file below. Note: first, you have to create this file...
+Edit the file `/usr/local/src/hadoop-2.7.1/etc/hadoop/mapred-site.xml` on the master node such that the `configuration` tag now looks like the `configuration` tag below.
+
+Note: first, you have to create this file...
 
 Execute these commands in the `/usr/local/src/hadoop-2.7.1/etc/hadoop` directory:
 
 1. `sudo cp mapred-site.xml.template mapred-site.xml`.
 2. `sudo chown hadoop:hadoop mapred-site.xml`
 3. `sudo vi mapred-site.xml`
+
+Then you can edit the file to contain this information:
 
 ```xml
 <configuration>
@@ -170,53 +118,7 @@ Execute these commands in the `/usr/local/src/hadoop-2.7.1/etc/hadoop` directory
 
 This tells map reduce jobs to run using the cluster; the default, otherwise, is to run locally on the client machine which defeats the purpose of Hadoop.
 
-#### Edit the `slaves` file.
-
-On the master node, edit the slaves files to look like this:
-
-```
-master
-worker01
-```
-
-If you have more worker nodes, then list them below `worker01` above.
-
-#### Format the name node directory
-
-On the master node, perform these commands to format the namenode directory
-
-1. `su - hdfs`
-2. `hdfs namenode -format`
-
-If all goes correctly, you should see the string `/home/hdfs/namenode has been successfully formatted.` somewhere in the massive amount of output generated by the second command. You can also cd to the namenode directory and see that it is no longer empty.
-
-#### Start the HDFS daemons
-
-On the master node, execute these commands:
-
-1. `su - hdfs`
-2. `start-dfs.sh`
-
-On the master, run the command `jps` as the `hdfs` user, you should see something similar to:
-
-```
-26791 DataNode
-26983 SecondaryNameNode
-27098 Jps
-26635 NameNode
-```
-
-This indicates that on the master, there is a name node, a secondary name node, and a data node running.
-
-On one of the worker nodes, run the command `jps` as the `hdfs` user, you should see something similar to:
-
-```
-15073 Jps
-14978 DataNode
-```
-This indicates that on this worker, a data node was successfully launched.
-
-#### Start the YARN daemons
+### Start the YARN daemons
 
 On the master node, execute these commands:
 
@@ -225,7 +127,7 @@ On the master node, execute these commands:
 
 This command should launch a resource manager and node manager on the master node and a node manager on each worker node. To test this, run the `jps` command as the `yarn` user on each node in your cluster to verify.
 
-#### Start the MapReduce job history daemon.
+### Start the MapReduce job history daemon.
 
 MapReduce has one server process that needs to be started on the master node.
 
@@ -245,5 +147,11 @@ Finally, run these commands to launch the history daemon.
 1. `su - mapred`
 2. `mr-jobhistory-daemon.sh start historyserver`
 
+## Conclusion
 
+At this point, you are done! Your Hadoop cluster is now up and running! Congrats!
+
+## What's next?
+
+While it's true that your cluster is up and running, you still have work to do. I did not configure any of the memory-related settings of Hadoop, how much memory each server takes, how much memory mapreduce jobs can consume, etc. Take a look at [Hadoop: The Definitive Guide, 4th Edition](http://shop.oreilly.com/product/0636920033448.do) or Hadoop-related websites on-line for more information.
 
