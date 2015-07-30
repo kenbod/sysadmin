@@ -49,7 +49,26 @@ ping ...
 
 ### Installing Java
 
-Make sure that your machines have Java installed. See [my instructions](https://github.com/kenbod/sysadmin/blob/master/java.md) for doing that or use the ~1.5B pages on the Internet that also discuss how to do that.
+Make sure that your machines have Java installed. See [my instructions](https://github.com/kenbod/sysadmin/blob/master/java.md) or use the ~1.5B pages on the Internet that also discuss how to do that.
+
+### Create User Accounts
+
+We need to create user accounts for `hadoop` and `hdfs`. You will need to create passwords for each account and keep track of them separately.
+
+1. `sudo addgroup hadoop`
+2. `sudo adduser --ingroup hadoop hadoop`
+3. `sudo adduser --ingroup hadoop hdfs`
+
+### Installing Hadoop
+
+Let's place the previously downloaded Hadoop archive into a known location. I decided to use `/usr/local/src` for that. You can use a different directory if you want. 
+
+1. cd to the directory that contains the Hadoop archive.
+2. `sudo mv <archive> /usr/local/src`
+3. `cd /usr/local/src`
+4. `sudo tar xzf <archive>`
+5. `sudo rm <archive>` (Optional)
+6. `sudo chown -R hadoop:hadoop hadoop-2.7.1` (change to match the version you downloaded)
 
 
 
