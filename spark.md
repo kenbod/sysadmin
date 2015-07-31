@@ -88,7 +88,7 @@ log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
 
 We need to create an RSA key pair for the `spark` account. The private and public key are stored on the master node. The public key for this account must then be copied to the corresponding locations on each of the worker nodes.
 
-### Creating the Key Pair
+#### Creating the Key Pair
 
 On the master node, run the following commands:
 
@@ -97,7 +97,7 @@ On the master node, run the following commands:
 3. Enter a passphrase for the private key and record it in a safe location.
 4. `cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys`
 
-### Copying the public keys
+#### Copying the public key
 
 We need to copy the public key from the master to each of the worker nodes. We will use `ssh-copy-id` for this and simply enter the password that you created for the `spark` account earlier.
 
@@ -110,7 +110,7 @@ On the master node, run the following commands **FOR EACH WORKER NODE:**
 5. Test the ability to login to the worker01 machine: `ssh worker01`
 6. You will be asked for your passphrase. Type it and you will be logged in on the remote machine.
 
-### Configuring Keychain for the `yarn` account
+#### Configuring Keychain for the `spark` account
 
 Login to the `spark` account and edit the .profile to make use of keychain
 
@@ -126,3 +126,50 @@ Login to the `spark` account and edit the .profile to make use of keychain
 6. Now if you type `ssh worker01`, you should be logged in without having to type your passphase
 7. You will no longer need to enter your passphrase until your virtual machine is rebooted
 
+### Create the unfortunately named `slaves` file
+
+On the master node, we need to create a file called `slaves` to tell Spark where the worker nodes should live.
+
+1. `su - spark`
+2. `cd /usr/local/src/spark-1.4.1/conf`
+3. `cp slaves.template slaves`
+3. `vi slaves` # List all of your worker nodes in this file, one per line
+
+        worker01
+        worker02
+        ...
+
+### Configure Master Node Hostname
+
+On the master node, we need to edit the `spark-env.sh` file to tell Spark the hostname of the master node. This is the same hostname that you used for the master node when setting up HDFS. For my configuration, it is simply `master`.
+
+1. `su - spark`
+2. `cd /usr/local/src/spark-1.4.1/conf`
+3. `vi spark-env.sh`
+4. Uncomment the variable `SPARK_MASTER_IP` and make it look like this:
+
+        SPARK_MASTER_IP=master
+
+Make sure to use whatever hostname you assigned your master node.
+
+## Launching the Cluster
+
+On the master node, to launch the cluster, execute the following steps:
+
+1. `su - spark`
+
+    Verify that the command `start-all.sh` is the Spark version and not the Hadoop version. If it is the Hadoop version, then update your path so that the Spark version of the command takes precendence over the Hadoop version of the command.
+
+2. `start-all.sh`
+
+## Testing the Cluster
+
+1. Access Spark's web user interface by navigating in a web browser to:
+
+        <http://master:8080/>
+
+2. Verify that all workers are listed in this interface and that you can navigate to their web interface via the links.
+
+3. Next, try connecting the spark-shell to this cluster. On the master node, execute:
+
+        spark-shell --master spark://master:7077
