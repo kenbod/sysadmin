@@ -23,3 +23,19 @@ created by default. So, let's get that created.
 
 Note: you should use the same usernames that you use <q>outside</q> HDFS.
 HDFS looks to the user account on the machine to determine certain access rights.
+
+# Solving permission problems with supergroup
+
+If you run a Spark or MapReduce job and it fails because the job tried to write some data outside of your user directory on HDFS, you may have to add that user to the `supergroup` to allow that data to be created.
+
+To do this, create the supergroup on the master node and then add the user to that group
+
+1. `sudo addgroup supergroup` (only run once)
+2. `sudo usermod -a -G supergroup <username>`
+
+If you know this is going to be an issue for all users who try to run jobs on your cluster, you can modify the `chown` command above to read: `hadoop fs -chown <username>:supergroup /user/<username>` to ensure the user's own directories belong to that group.
+
+
+
+
+
