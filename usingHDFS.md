@@ -35,6 +35,19 @@ To do this, create the supergroup on the master node and then add the user to th
 
 If you know this is going to be an issue for all users who try to run jobs on your cluster, you can modify the `chown` command above to read: `hadoop fs -chown <username>:supergroup /user/<username>` to ensure the user's own directories belong to that group.
 
+# Putting files into HDFS
+
+To copy a file from the local file system to HDFS, use the put command:
+
+* `hadoop fs -put <file1> <file2> ... <hdfs_dir>`
+
+Example: `hadoop fs -put edges.txt /user/kena`
+
+# Getting files out of HDFS
+
+To copy a file out of HDFS to the local file system, use the get command:
+
+* `hadoop fs -get <hdfs_file> <local_dir>`
 
 
 
