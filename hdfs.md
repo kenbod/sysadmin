@@ -256,3 +256,5 @@ This indicates that on this worker, a data node was successfully launched.
 ## Conclusion
 
 At this point, you are done! Your HDFS cluster is now up and running! Congrats!
+
+Now, head over to my page on [using HDFS](https://github.com/kenbod/sysadmin/blob/master/usingHDFS.md) to get started on using your new cluster.
