@@ -15,3 +15,5 @@ To give a user sudo access:
 To regenerate missing SSH host keys: `sudo ssh-keygen -A`
 
 To see which groups a user belongs to: `groups <username>`
+
+To add an existing user to an existing group: `sudo usermod -a -G <group> <username>`
