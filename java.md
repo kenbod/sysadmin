@@ -49,7 +49,7 @@ These manual instructions were taken from this [useful post on Ask Ubuntu](http:
         sudo chmod a+x /usr/bin/javac
         sudo chmod a+x /usr/bin/javaws
         sudo chmod a+x /usr/bin/jps
-        sudo chown -R root:root /usr/lib/jvm/jdk1.8.0
+        sudo chown -R root:root /usr/lib/jvm/<jdk-directory>
 
 6. If you have only one version of the JDK installed, skip this step. Otherwise, pick the JDK you want to use
 
