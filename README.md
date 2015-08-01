@@ -6,13 +6,13 @@ This is a repo I created to keep track of system administration tasks and workfl
 
 If you attempt to use these notes to create a similar set-up, then I recommend the following rough order:
 
-Using Volumes (if you need to format the file systems that your data nodes are going to use)
-Install Java
-Install Scala
-Install HDFS
-Install Spark
-Install Hadoop (Optional; I ended up not using Hadoop, just HDFS.)
-Using HDFS (to create the /user directory and a user account)
+* Using Volumes (if you need to format the file systems that your data nodes are going to use)
+* Install Java
+* Install Scala
+* Install HDFS
+* Install Spark
+* Install Hadoop (Optional; I ended up not using Hadoop, just HDFS)
+* Using HDFS (to create the /user directory and a user account)
 
 Use the commands in Misc as needed to create any non-spark, non-hdfs users that you need.
 
