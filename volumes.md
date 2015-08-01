@@ -27,7 +27,7 @@ Login to the instance and format the volume with the command:
 
 ## Mount the volume
 
-1. Create a mount point for the volume: `sudo mkdir srv/hdfs-1`
+1. Create a mount point for the volume: `sudo mkdir /srv/hdfs-1`
 2. fsent="LABEL=hdfs-1 /srv/hdfs-1 ext3 noatime 1 2"
 3. echo "$fsent" | sudo tee -a /etc/fstab
 4. sudo mount /srv/hdfs-1
