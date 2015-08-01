@@ -25,7 +25,7 @@ The version I downloaded in July 2015 was: jdk-8u51-linux-x64.tar.gz (64 bit) an
 
 These manual instructions were taken from this [useful post on Ask Ubuntu](http://askubuntu.com/questions/56104/how-can-i-install-sun-oracles-proprietary-java-jdk-6-7-8-or-jre).
 
-1. Unpack the archive in a user directory: `tar -xvf <jdk-archive.tar.gz>`
+1. Unpack the archive in a user directory: `tar xzf <jdk-archive.tar.gz>`
 2. Move the new directory to `/usr/lib/jvm`
 
         sudo mkdir -p /usr/lib/jvm
