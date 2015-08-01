@@ -173,3 +173,19 @@ On the master node, to launch the cluster, execute the following steps:
 3. Next, try connecting the spark-shell to this cluster. On the master node, execute:
 
         spark-shell --master spark://master:7077
+
+## Note on Memory
+
+By default, a Spark worker node will use all cores on its machine and will grab all available memory on the machine minus 1 GB. These defaults should be good for most situations. However, be aware that `spark worker` != `spark executor` and it is the `spark executor` that executes application code. Thus, a Spark worker node that has four cores will typically launch four executors when it is asked to do something and have those four executors split the work for that node between them.
+
+How much memory does an executor get? 512MB by default. Even if the worker node has more memory available. So, in my initial set-up, my worker nodes have 4 cores and 8 GBs of memory. The worker would grab 7 GB of memory and launch four executors with 512MB of memory each when I submitted a task to the cluster, consuming only 2 GB of the 7GB of memory available.
+
+How do you give the executors more memory? You do it programmatically when creating your `SparkConf` object by explicitly setting the `spark.executor.memory` property.
+
+```scala
+val conf = new SparkConf().setAppName("Shortest Path").set("spark.executor.memory", "1024m")
+```
+
+This tells Spark to use 1GB of memory per executor on each worker node. For my set-up, that allows 4 GB of the 7GB available to be consumed. Note: If I specify 2GB for this parameter, the job still runs but I think it would lead to out-of-memory errors or performance problems if my job actually required each executor to use 2GB of memory each. The worker has 7 GB of memory total so if all 4 workers try to grab 2GB each either one of them dies with an out-of-memory error or virtual memory kicks in slowing the execution of all the executors on that node.
+(1024*1024*1024*7)/4/1000/1000 ~= 1879m
+(1048576*7)/4/1000
