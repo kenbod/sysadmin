@@ -25,7 +25,7 @@ We will only be installing Spark on what was called <q>the master node</q> in my
 
         SPARK_HOME="/usr/local/src/spark-1.4.1"
 
-2. Add the following line to `/etc/bash.bashrc`
+2. Add the following line to `/etc/bash.bashrc`. Note, on the master node, make sure this line appears **BEFORE** the similar line that we added for HDFS/Hadoop. The reason: you want the start-all.sh and stop-all.sh scripts to refer to the Spark versions and not the Hadoop versions.
 
         export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
