@@ -139,23 +139,39 @@ Based on my own Internet searches, the information in this section is hard to co
 
 #### Create directories for HDFS
 
-We are now going to create three directories in `/home/hdfs/` for the `hdfs` account to store files for HDFS's operation. I don't think that all three of these directories need to be created on all nodes in the cluster but, just to be safe, perform these commands on the master and all of the workers.
+There are up to three different directories that now need to be created on each node in the cluster:
 
-Create a directory for HDFS to store temporary files.
+Directory | Description
+----------|------------
+tmp | A `tmp` directory on the `master` node.
+namenode | A directory for the namenode server on the `master` node
+datanode | A directory for the datanode server on the `master` node and all `worker` nodes.
+
+A simple location for these directories is in the `/home/hdfs/` account. But only create them in this directory if `/home/hdfs` is on a large disk partition in your set-up. For intance, in my set-up, I created 500 GB <q>data</q> volumes for each of my worker nodes. I then placed their datanode directories on those data volumes.
+
+For now, the instructions here and below will assume that all three directories are created in `/home/hdfs`. But, given the information above, you can place them in different directories. Just make sure you adjust the information in the configuration files below with the locations that you used.
+
+On the master node, create a directory for HDFS to store temporary files.
 
 1. `su - hdfs`
 2. `mkdir tmp`
 3. `chmod 777 tmp`
 
-Stay logged in as the HDFS user and now create directories for the Name Node and Data Node.
+On the master node, stay logged in as the HDFS user and now create a directory for the Name Node Server
 
-1. `mkdir namenode`
+1. `su - hdfs`
+2. `mkdir namenode`
+3. `chmod 777 namenode`
+
+On the master node and **on all worker nodes**, create a directory for the Data Node Server
+
+1. `su - hdfs`
 2. `mkdir datanode`
-3. `chmod 777 namenode datanode`
+3. `chmod 777 datanode`
 
 #### Create a place for HDFS log files
 
-We need a single location for Hadoop-related log files.
+We need a single location for Hadoop-related log files on **all nodes** in the cluster.
 
 1. `su - hadoop`
 2. `cd /usr/local/src/hadoop-2.7.1`
