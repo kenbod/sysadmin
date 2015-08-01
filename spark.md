@@ -183,9 +183,7 @@ How much memory does an executor get? 512MB by default. Even if the worker node 
 How do you give the executors more memory? You do it programmatically when creating your `SparkConf` object by explicitly setting the `spark.executor.memory` property.
 
 ```scala
-val conf = new SparkConf().setAppName("Shortest Path").set("spark.executor.memory", "1024m")
+val conf = new SparkConf().setAppName("My App Name").set("spark.executor.memory", "1024m")
 ```
 
 This tells Spark to use 1GB of memory per executor on each worker node. For my set-up, that allows 4 GB of the 7GB available to be consumed. Note: If I specify 2GB for this parameter, the job still runs but I think it would lead to out-of-memory errors or performance problems if my job actually required each executor to use 2GB of memory each. The worker has 7 GB of memory total so if all 4 workers try to grab 2GB each either one of them dies with an out-of-memory error or virtual memory kicks in slowing the execution of all the executors on that node.
-(1024*1024*1024*7)/4/1000/1000 ~= 1879m
-(1048576*7)/4/1000
