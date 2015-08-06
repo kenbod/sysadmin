@@ -61,4 +61,9 @@ or more generally
 
 * `hadoop fs -getmerge /path/to/hdfs/dir ./path/to/local/combined/text/file.txt`
 
+# Deleting Files and Directories
 
+HDFS deletes files and directories as you would expect:
+
+* `hadoop fs -rm /path/to/hdfs/file.txt`
+* `hadoop fs -rm -r /path/to/hdfs/dir`
