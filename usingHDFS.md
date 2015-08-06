@@ -49,6 +49,16 @@ To copy a file out of HDFS to the local file system, use the get command:
 
 * `hadoop fs -get <hdfs_file> <local_dir>`
 
+# Working with Hadoop PART files
 
+When you create an RDD and have Spark save it uwith the `RDD.saveAsTextFile(".../path")` command, it creates a **directory** that contains each partition of the RDD stored in a separate `part-XXXXX` file, i.e. `part-00000`, `part-00001`, etc. Each of those files is just a simple text file (hence the name: `saveAsTextFile`).
+
+It would be a pain if you have to combine all of those part files yourself each time you run a job... fortunately, you can have Hadoop do that for you (!):
+
+* `hadoop fs -getmerge /user/kena/counts ./counts.txt`
+
+or more generally
+
+* `hadoop fs -getmerge /path/to/hdfs/dir ./path/to/local/combined/text/file.txt`
 
 
