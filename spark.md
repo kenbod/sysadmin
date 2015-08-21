@@ -162,6 +162,16 @@ On the master node, to launch the cluster, execute the following steps:
 
 2. `start-all.sh`
 
+## Shutting down the Cluster
+
+If you ever need to shut the Spark cluster down, then follow these two simple steps. On the master node:
+
+1. `su - spark`
+
+    Verify that the command `stop-all.sh` is the Spark version and not the Hadoop version. If it is the Hadoop version, then update your path so that the Spark version of the command takes precendence over the Hadoop version of the command.
+
+2. `stop-all.sh`
+
 ## Testing the Cluster
 
 1. Access Spark's web user interface by navigating in a web browser to:
