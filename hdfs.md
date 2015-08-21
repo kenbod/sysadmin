@@ -269,6 +269,13 @@ On one of the worker nodes, run the command `jps` as the `hdfs` user, you should
 ```
 This indicates that on this worker, a data node was successfully launched.
 
+## Shutting down the HDFS cluster
+
+If you ever need to shut the HDFS cluster down, follow these steps. On the master node:
+
+1. `su - hdfs`
+2. `stop-dfs.sh`
+
 ## Conclusion
 
 At this point, you are done! Your HDFS cluster is now up and running! Congrats!
