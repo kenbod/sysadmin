@@ -36,19 +36,21 @@ These manual instructions were taken from this [useful post on Ask Ubuntu](http:
         cd /usr/lib/jvm
         sudo ln -s <jdk-directory> jdk1.8.0
 
-4. Let Ubuntu know about the newly installed commands
+4. Let Ubuntu know about the newly installed commands. (Do this for any JDK command that you want to use.)
 
         sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0/bin/java" 1
         sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/jdk1.8.0/bin/javac" 1
         sudo update-alternatives --install "/usr/bin/javaws" "javaws" "/usr/lib/jvm/jdk1.8.0/bin/javaws" 1
         sudo update-alternatives --install "/usr/bin/jps" "jps" "/usr/lib/jvm/jdk1.8.0/bin/jps" 1
-
+        sudo update-alternatives --install "/usr/bin/jar" "jar" "/usr/lib/jvm/jdk1.8.0/bin/jar" 1
+        
 5. Mark the files as exectuable and make sure that `root` owns the installation
 
         sudo chmod a+x /usr/bin/java
         sudo chmod a+x /usr/bin/javac
         sudo chmod a+x /usr/bin/javaws
         sudo chmod a+x /usr/bin/jps
+        sudo chmod a+x /usr/bin/jar
         sudo chown -R root:root /usr/lib/jvm/<jdk-directory>
 
 6. If you have only one version of the JDK installed, skip this step. Otherwise, pick the JDK you want to use
@@ -57,6 +59,7 @@ These manual instructions were taken from this [useful post on Ask Ubuntu](http:
         sudo update-alternatives --config javac
         sudo update-alternatives --config javaws
         sudo update-alternatives --config jps
+        sudo update-alternatives --config jar
 
 7. Make sure that JAVA_HOME is defined in `/etc/environment`. Add this line:
 
