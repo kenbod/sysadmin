@@ -42,6 +42,8 @@ We want our version of Spark to be able to access HDFS. In order to do that, it 
 Now edit the spark-env.sh file. Uncomment the line that defines the HADOOP_CONF_DIR environment variable. Make it look like this:
 
     HADOOP_CONF_DIR="/usr/local/src/hadoop-2.7.1/etc/hadoop"
+    
+While you are editing this file, you may need to specify values for `SPARK_LOG_DIR`, `SPARK_WORKER_DIR`, and `SPARK_LOCAL_DIRS`. In particular, you want these directories to be located on a disk partition that has lots of disk space. Files will accumulate in SPARK_WORKER_DIR over time and will eventually consume gigabytes of data. On small disk partitions, that will eventually lead to workers failing when they run out of disk space (as I found out the hard way!).
 
 ### Configure Spark to be Less Chatty. (Optional)
 
