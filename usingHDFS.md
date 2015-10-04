@@ -61,6 +61,14 @@ or more generally
 
 * `hadoop fs -getmerge /path/to/hdfs/dir ./path/to/local/combined/text/file.txt`
 
+# Listing the size of files
+
+* `hadoop fs -ls -h`
+
+# Listing the size of directories
+
+* `hadoop fs -du -s -h <hdfs_dir>`
+
 # Deleting Files and Directories
 
 HDFS deletes files and directories as you would expect:
