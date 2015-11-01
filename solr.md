@@ -56,6 +56,30 @@ Unfortunately, this means that when we launch solr that we have to tell it which
 
 # Launching Solr for the first time
 
+We will let Solr create our first core for us. We will then quit Solr and configure the core that it made for our own use.
+
+To launch Solr for the first time:
+
+* `su - solr`
+* `solr start -d /srv/hdfs-0/data/server -s /srv/hdfs-0/data/server/solr`
+* View your solr instance at: http://XXX.XX.XXX.XXX:8983/
+
+Now, let's have Solr create a core that we can customize:
+
+* `solr create -c fixr` # You can name your core whatever you want
+
+This command will create a core named `fixr` that makes use of the default <q>data driven</q> Solr core. We will customize this core down below. After running this command, head back to Solr's web page and refresh it to confirm that it was created. Head to your file system and confirm that it was created in the correct location. For me, that location is:
+
+`/srv/hdfs-0/data/server/solr/fixr`
+
+Now, it's time to turn solr off and configure our newly created core:
+
+* `solr stop`
+
+You can also check on solr's status by typing (oddly enough):
+
+* `solr status`
+
 
 
 
