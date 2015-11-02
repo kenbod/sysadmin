@@ -110,6 +110,30 @@ Third: Make the following edits.
   
   This allows us to store text fields in our documents that are not analyzed or indexed but are stored so that they can later be retrieved. We only want these fields so we can display them as the result of a query but we are not going to be searching on their content.
 
+3. There is currently NO step 3.
+
+# Details about our Core
+
+Given the above configuration, we now have a variety of options for storing/indexing data. The processing that Solr applies to a particular field depends on the suffix we give to that field's name. Here are the relevant suffixes that we'll be using:
+
+|Suffix|Meaning|
+|:----:|:------|
+|_sni|Store the text of this field but do not process or index it.|
+|_tdt|This field must contain a date formatted in the following way: 1995-12-31T23:59:59Z. It allows us to specify range queries on date/time values. Solr uses a trie to index these values; as such, queries on these values typically execute with blinding speed|
+|_t|This field contains textual data that we want indexed and stored. We use these fields to search our corpus for text-based stings. Solr applies its standard tokenizer on this field, removes stop words (by default, no stop words are specified), and it applies a lowercase filter to the produced tokens. Thus `addDocument` and `adddocument` are treated as the same query. It also uses any information from `synonyms.txt` in your core's `conf` directory at query time. (That file by default has a few meaningless synonyms specified; you can delete all of the non-commented text from that file if you want.)|
+
+There are many more field types defined in the default schema (check them out) but the three fields above are all I need for my project.
+
+# Launching Solr for Long-Term Use
+
+Solr launches in the background automatically and will continue to run after the user logs out. So, to launch solr for long-term use, you use the same two commands that you did for the first invocation:
+
+* `su - solr`
+* `solr start -d /srv/hdfs-0/data/server -s /srv/hdfs-0/data/server/solr`
+
+Log out and verify that you can still access solr's web-based interface.
+
+
 
 
 
